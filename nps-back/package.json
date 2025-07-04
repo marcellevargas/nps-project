@@ -18,7 +18,12 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "seed": "npx ts-node -r tsconfig-paths/register src/seed/seed.ts"
+    "seed": "npx ts-node -r tsconfig-paths/register src/seed/seed.ts",
+    "docker:mongodb": "docker-compose -f docker-compose-mongodb.yml up -d",
+    "docker:api": "docker-compose up --build",
+    "docker:up": "npm run docker:mongodb && npm run docker:api",
+    "docker:down": "docker-compose down && docker-compose -f docker-compose-mongodb.yml down",
+    "docker:seed": "npm run docker:mongodb && docker-compose up -d --build && sleep 5 && docker-compose exec app npm run seed"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",

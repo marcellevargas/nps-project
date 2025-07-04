@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: ${APP_CONTAINER_NAME}
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - MONGODB_URI=${MONGODB_URI_DOCKER}
+      - PORT=${APP_PORT}
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - nps-network
+
+networks:
+  nps-network:
+    name: ${NETWORK_NAME}
+    external: true

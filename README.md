@@ -4,6 +4,8 @@
 ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
 ![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
+![Jest](https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white)
 ![NPM](https://img.shields.io/badge/NPM-CB3837?style=for-the-badge&logo=npm&logoColor=white)
 
 > 🎯 Sistema completo de **Net Promoter Score** com frontend moderno e API robusta
@@ -192,17 +194,16 @@ npm install
 ```
 
 2. **Configure as variáveis de ambiente:**
-Crie um arquivo `.env` na pasta `nps-back` com:
+Crie um arquivo `.env` na pasta `nps-back` com essas variáveis:
+
 ```env
+# exemplo para rodar local
 # Database Configuration
 MONGODB_URI=mongodb://localhost:27017/nps-database
 
 # Application Configuration
 PORT=3000
 NODE_ENV=development
-
-# CORS Configuration
-CORS_ORIGIN=http://localhost:3001
 ```
 
 3. **Execute o seed para popular o banco com dados de teste:**
@@ -235,6 +236,40 @@ npm install
 npm run dev
 ```
 📱 O frontend estará disponível em: http://localhost:3001
+
+### 🐳 Rodando com Docker
+
+Para facilitar o desenvolvimento, você pode usar Docker para executar todo o ambiente:
+
+1. **Configure as variáveis de ambiente:**
+Crie um arquivo `.env` na pasta `nps-back` com as variáveis necessárias (use o `.env.template` como base).
+
+2. **Inicie o MongoDB e a API:**
+```bash
+cd nps-back
+npm run docker:up
+```
+Este comando irá:
+- Iniciar o container do MongoDB
+- Construir e iniciar o container da API
+- Conectar ambos na mesma rede Docker
+
+3. **Popular o banco com dados de teste:**
+```bash
+cd nps-back
+npm run docker:seed
+```
+🌱 Isso criará os mesmos dados de exemplo no container do MongoDB
+
+4. **Para parar todos os containers:**
+```bash
+cd nps-back
+npm run docker:down
+```
+
+✅ **Verificação:** Após iniciar os containers:
+- MongoDB estará rodando em: mongodb://localhost:27017
+- API estará disponível em: http://localhost:8081
 
 ## 🛠️ Tecnologias Utilizadas
 
