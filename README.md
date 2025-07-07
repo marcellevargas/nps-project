@@ -436,11 +436,21 @@ In our system, the NPS calculation is performed automatically based on received 
 8. 🔧 Add validations and error handling
 9. 🎨 Customize system design
 10. 🚀 Configure deployment and CI/CD
-
-## 📄 License
-
-This project is under the MIT license. See the [LICENSE](LICENSE) file for more details.
-
 ---
 
-⭐ **Developed with ❤️ to improve customer experience** 
+
+## 🤝 Developer
+Developed with ❤️ by:
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/marcellevargas" title="check my github">
+        <img src="https://avatars.githubusercontent.com/u/37669732?v=4" width="100px;" alt="Photo of Marcelle on Github"/><br>
+        <sub>
+          <b>Marcelle Vargas</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
+</table>
