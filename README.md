@@ -446,7 +446,7 @@ Developed with ❤️ by:
 <table>
   <tr>
     <td align="center">
-      <a href="https://github.com/marcellevargas" title="check my github">
+      <a href="https://www.marcellevargas.com.br/" title="check my portfolio page">
         <img src="https://avatars.githubusercontent.com/u/37669732?v=4" width="100px;" alt="Photo of Marcelle on Github"/><br>
         <sub>
           <b>Marcelle Vargas</b>
