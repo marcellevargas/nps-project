@@ -8,55 +8,55 @@
 ![Jest](https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white)
 ![NPM](https://img.shields.io/badge/NPM-CB3837?style=for-the-badge&logo=npm&logoColor=white)
 
-> 🎯 Sistema completo de **Net Promoter Score** com frontend moderno e API robusta
+> 🎯 Complete **Net Promoter Score** system with a modern frontend and robust API
 
-## 🏗️ Estrutura do Projeto
+## 🏗️ Project Structure
 
-Este projeto contém dois aplicativos:
-- **🌐 nps-front**: Aplicação frontend em Next.js
-- **🔧 nps-back**: API backend em Nest.js
+This project contains two applications:
+- **🌐 nps-front**: Frontend application in Next.js
+- **🔧 nps-back**: Backend API in Nest.js
 
-## 🚀 Como executar os projetos
+## 🚀 How to Run the Projects
 
-### 📋 Pré-requisitos
-- Node.js (versão 16 ou superior)
-- MongoDB (local ou remoto)
-- NPM ou Yarn
+### 📋 Prerequisites
+- Node.js (version 16 or higher)
+- MongoDB (local or remote)
+- NPM or Yarn
 
-### 🛠️ Instalação dos Pré-requisitos
+### 🛠️ Prerequisites Installation
 
 #### **Node.js Installation**
 
 **🍎 macOS:**
 ```bash
-# Usando Homebrew (recomendado)
+# Using Homebrew (recommended)
 brew install node
 
-# Ou baixe diretamente do site oficial
+# Or download directly from the official website
 # https://nodejs.org/en/download/
 ```
 
 **🪟 Windows:**
 ```bash
-# Baixe o instalador oficial
+# Download the official installer
 # https://nodejs.org/en/download/
 
-# Ou usando Chocolatey
+# Or using Chocolatey
 choco install nodejs
 
-# Ou usando Winget
+# Or using Winget
 winget install OpenJS.NodeJS
 ```
 
 **🐧 Linux (Ubuntu/Debian):**
 ```bash
-# Atualizar repositórios
+# Update repositories
 sudo apt update
 
-# Instalar Node.js
+# Install Node.js
 sudo apt install nodejs npm
 
-# Verificar instalação
+# Verify installation
 node --version
 npm --version
 ```
@@ -65,121 +65,121 @@ npm --version
 
 **🍎 macOS:**
 ```bash
-# Usando Homebrew
+# Using Homebrew
 brew tap mongodb/brew
 brew install mongodb-community
 
-# Iniciar o serviço
+# Start the service
 brew services start mongodb-community
 
-# Verificar se está rodando
+# Verify if it's running
 brew services list | grep mongodb
 ```
 
 **🪟 Windows:**
 ```bash
-# Baixe o instalador oficial
+# Download the official installer
 # https://www.mongodb.com/try/download/community
 
-# Ou usando Chocolatey
+# Or using Chocolatey
 choco install mongodb
 
-# Iniciar como serviço Windows
+# Start as Windows service
 net start MongoDB
 ```
 
 **🐧 Linux (Ubuntu/Debian):**
 ```bash
-# Importar chave pública do MongoDB
+# Import MongoDB public key
 curl -fsSL https://pgp.mongodb.com/server-6.0.asc | sudo gpg -o /usr/share/keyrings/mongodb-server-6.0.gpg --dearmor
 
-# Adicionar repositório
+# Add repository
 echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
 
-# Atualizar e instalar
+# Update and install
 sudo apt update
 sudo apt install mongodb-org
 
-# Iniciar serviço
+# Start service
 sudo systemctl start mongod
 sudo systemctl enable mongod
 
-# Verificar status
+# Check status
 sudo systemctl status mongod
 ```
 
-**🐳 Docker (Alternativa para todos os sistemas):**
+**🐳 Docker (Alternative for all systems):**
 ```bash
-# Executar MongoDB em container
+# Run MongoDB in container
 docker run -d \
   --name mongodb \
   -p 27017:27017 \
   -v mongodb_data:/data/db \
   mongo:latest
 
-# Verificar se está rodando
+# Verify if it's running
 docker ps | grep mongodb
 ```
 
-### ✅ Verificação da Instalação
+### ✅ Installation Verification
 
-Após instalar, verifique se tudo está funcionando:
+After installing, verify if everything is working:
 
 ```bash
-# Verificar Node.js
+# Verify Node.js
 node --version
 npm --version
 
-# Verificar MongoDB
+# Verify MongoDB
 mongosh --version
 
-# Testar conexão MongoDB
+# Test MongoDB connection
 mongosh "mongodb://localhost:27017/test"
 ```
 
-### 🌐 Alternativa: MongoDB Atlas (Cloud)
+### 🌐 Alternative: MongoDB Atlas (Cloud)
 
-Se preferir usar MongoDB na nuvem:
+If you prefer to use MongoDB in the cloud:
 
-1. **Crie uma conta gratuita:** https://www.mongodb.com/atlas
-2. **Crie um cluster gratuito**
-3. **Configure acesso de rede** (adicione seu IP)
-4. **Crie um usuário do banco**
-5. **Copie a connection string** e use no `.env`:
+1. **Create a free account:** https://www.mongodb.com/atlas
+2. **Create a free cluster**
+3. **Configure network access** (add your IP)
+4. **Create a database user**
+5. **Copy the connection string** and use it in `.env`:
 ```env
 MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/nps-database?retryWrites=true&w=majority
 ```
 
 ### 🔧 Troubleshooting
 
-**❌ Problemas comuns:**
+**❌ Common issues:**
 
-**MongoDB não conecta:**
+**MongoDB won't connect:**
 ```bash
-# Verificar se o serviço está rodando
+# Check if the service is running
 # macOS/Linux
 sudo systemctl status mongod
 
 # Windows
 net start MongoDB
 
-# Verificar porta
+# Check port
 netstat -tlnp | grep 27017
 ```
 
-**Node.js versão incorreta:**
+**Wrong Node.js version:**
 ```bash
-# Instalar Node Version Manager (NVM)
+# Install Node Version Manager (NVM)
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 
-# Usar versão específica
+# Use specific version
 nvm install 18
 nvm use 18
 ```
 
-**Problemas de permissão:**
+**Permission issues:**
 ```bash
-# Configurar npm para não usar sudo
+# Configure npm to not use sudo
 npm config set prefix ~/.npm-global
 echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
 source ~/.bashrc
@@ -187,17 +187,17 @@ source ~/.bashrc
 
 ### ⚙️ Backend (nps-back)
 
-1. **Instale as dependências:**
+1. **Install dependencies:**
 ```bash
 cd nps-back
 npm install
 ```
 
-2. **Configure as variáveis de ambiente:**
-Crie um arquivo `.env` na pasta `nps-back` com essas variáveis:
+2. **Configure environment variables:**
+Create a `.env` file in the `nps-back` folder with these variables:
 
 ```env
-# exemplo para rodar local
+# example for local running
 # Local
 MONGODB_URI=
 PORT=
@@ -221,226 +221,226 @@ MONGO_VOLUME=
 MONGO_SERVER=
 ```
 
-3. **Execute o seed para popular o banco com dados de teste:**
+3. **Run the seed to populate the database with test data:**
 ```bash
 npm run seed
 ```
-🌱 Isso criará dados de exemplo sobre restaurantes e avaliações
+🌱 This will create example data about restaurants and ratings
 
-✅ **Verificação:** Se o seed executar com sucesso, você verá:
-- Mensagem de confirmação
-- Estatísticas dos dados inseridos
-- Contagem de avaliações por restaurante
+✅ **Verification:** If the seed runs successfully, you'll see:
+- Confirmation message
+- Statistics of inserted data
+- Rating count per restaurant
 
-4. **Inicie o servidor:**
+4. **Start the server:**
 ```bash
 npm run start:dev
 ```
-🔗 A API estará disponível em: http://localhost:3001/api
+🔗 The API will be available at: http://localhost:3001/api
 
 ### 💻 Frontend (nps-front)
 
-1. **Instale as dependências:**
+1. **Install dependencies:**
 ```bash
 cd nps-front
 npm install
 ```
 
-2. **Inicie o servidor de desenvolvimento:**
+2. **Start the development server:**
 ```bash
 npm run dev
 ```
-📱 O frontend estará disponível em: http://localhost:3000
+📱 The frontend will be available at: http://localhost:3000
 
-### 🐳 Rodando com Docker
+### 🐳 Running with Docker
 
-Para facilitar o desenvolvimento, você pode usar Docker para executar todo o ambiente:
+To facilitate development, you can use Docker to run the entire environment:
 
-1. **Configure as variáveis de ambiente:**
-   - Para o backend: Crie um arquivo `.env` na pasta `nps-back` com as variáveis necessárias (use o `.env.template` como base).
-   - Para o frontend: As variáveis já estão configuradas no docker-compose.yml.
+1. **Configure environment variables:**
+   - For backend: Create a `.env` file in the `nps-back` folder with the necessary variables (use `.env.template` as base).
+   - For frontend: Variables are already configured in docker-compose.yml.
 
-2. **Inicie o ambiente completo (recomendado):**
+2. **Start the complete environment (recommended):**
 ```bash
-# Na raiz do projeto, inicie primeiro o backend
+# In the project root, start the backend first
 cd nps-back
 npm run docker:up
 
-# Em outro terminal, inicie o frontend
+# In another terminal, start the frontend
 cd nps-front
 npm run docker:up
 ```
 
-3. **Comandos disponíveis para o Frontend (na pasta nps-front):**
+3. **Available commands for Frontend (in nps-front folder):**
 ```bash
-# Iniciar os containers
+# Start containers
 npm run docker:up
 
-# Parar os containers
+# Stop containers
 npm run docker:down
 
-# Reconstruir e iniciar os containers (após mudanças)
+# Rebuild and start containers (after changes)
 npm run docker:build
 
-# Ver logs em tempo real
+# View real-time logs
 npm run docker:logs
 ```
 
-4. **Comandos disponíveis para o Backend (na pasta nps-back):**
+4. **Available commands for Backend (in nps-back folder):**
 ```bash
-# Iniciar os containers (MongoDB + API)
+# Start containers (MongoDB + API)
 npm run docker:up
 
-# Parar os containers
+# Stop containers
 npm run docker:down
 
-# Popular o banco com dados de teste
+# Populate database with test data
 npm run docker:seed
 ```
 
-✅ **Verificação:** Após iniciar os containers:
-- MongoDB estará rodando em: mongodb://localhost:27017
-- API (Backend) estará disponível em: http://localhost:3001
-- Frontend estará disponível em: http://localhost:3000
+✅ **Verification:** After starting the containers:
+- MongoDB will be running at: mongodb://localhost:27017
+- API (Backend) will be available at: http://localhost:3001
+- Frontend will be available at: http://localhost:3000
 
-**🔍 Troubleshooting Docker:**
+**🔍 Docker Troubleshooting:**
 ```bash
-# Verificar status dos containers
+# Check containers status
 docker ps
 
-# Ver logs de um container específico
+# View logs of a specific container
 docker logs nps-frontend
 docker logs nps-backend
 
-# Reiniciar um container
+# Restart a container
 docker restart nps-frontend
 docker restart nps-backend
 
-# Limpar todos os containers e volumes (caso necessário)
+# Clean all containers and volumes (if needed)
 docker-compose down -v
 ```
 
-## 🛠️ Tecnologias Utilizadas
+## 🛠️ Technologies Used
 
 ### 🌐 nps-front (Next.js)
-- ⚡ **TypeScript** - Tipagem estática
-- 🎨 **Tailwind CSS** - Framework CSS utilitário
-- 🔍 **ESLint** - Linter para código
-- 🗂️ **App Router** - Roteamento moderno
-- 📁 **Src directory** - Estrutura organizada
+- ⚡ **TypeScript** - Static typing
+- 🎨 **Tailwind CSS** - Utility-first CSS framework
+- 🔍 **ESLint** - Code linter
+- 🗂️ **App Router** - Modern routing
+- 📁 **Src directory** - Organized structure
 
 ### 🔧 nps-back (Nest.js)
-- ⚡ **TypeScript** - Tipagem estática
-- 🏗️ **Controllers/Services/Modules** - Arquitetura modular
-- 🗃️ **MongoDB + Mongoose** - Banco de dados NoSQL
-- 🧪 **Jest** - Testes automatizados
-- 🔍 **ESLint + Prettier** - Qualidade de código
-- 📝 **Decorators** - Programação declarativa
+- ⚡ **TypeScript** - Static typing
+- 🏗️ **Controllers/Services/Modules** - Modular architecture
+- 🗃️ **MongoDB + Mongoose** - NoSQL database
+- 🧪 **Jest** - Automated testing
+- 🔍 **ESLint + Prettier** - Code quality
+- 📝 **Decorators** - Declarative programming
 
-## 🗃️ Banco de Dados
+## 🗃️ Database
 
-Este projeto utiliza **MongoDB** para armazenar as avaliações NPS. O banco inclui:
+This project uses **MongoDB** to store NPS ratings. The database includes:
 
-### 📊 Dados de Teste (Seed)
-Ao executar `npm run seed`, o banco será populado com dados de exemplo sobre restaurantes:
+### 📊 Test Data (Seed)
+When running `npm run seed`, the database will be populated with example data about restaurants:
 
-**🍕 Produtos incluídos:**
+**🍕 Included Products:**
 - Pizza Express
 - Burger King  
 - Sushi House
-- Padaria Doce Manhã
-- Açaí da Praia
-- Churrascaria Gaúcha
-- Pizzaria da Esquina
+- Sweet Morning Bakery
+- Beach Açaí
+- Gaucho Steakhouse
+- Corner Pizzeria
 
-**📈 Estatísticas dos dados:**
-- 20 avaliações distribuídas entre os restaurantes
-- Ratings de 1 a 5 estrelas
-- Comentários realistas sobre comida e atendimento
-- Datas variadas para simulação temporal
+**📈 Data Statistics:**
+- 20 ratings distributed among restaurants
+- Ratings from 1 to 5 stars
+- Realistic comments about food and service
+- Various dates for temporal simulation
 
 ### 🔗 API Endpoints
-- `GET /nps-survey` - Listar todas as avaliações
-- `GET /nps-survey/:id` - Buscar avaliação específica
-- `POST /nps-survey` - Criar nova avaliação
-- `PUT /nps-survey/:id` - Atualizar avaliação
-- `DELETE /nps-survey/:id` - Deletar avaliação
+- `GET /nps-survey` - List all ratings
+- `GET /nps-survey/:id` - Get specific rating
+- `POST /nps-survey` - Create new rating
+- `PUT /nps-survey/:id` - Update rating
+- `DELETE /nps-survey/:id` - Delete rating
 
-**🧪 Teste rápido da API:**
+**🧪 Quick API Test:**
 ```bash
-# Listar todas as avaliações
+# List all ratings
 curl http://localhost:3000/nps-survey
 
-# Criar nova avaliação
+# Create new rating
 curl -X POST http://localhost:3000/nps-survey \
   -H "Content-Type: application/json" \
-  -d '{"productName": "Novo Restaurante", "rating": 5, "comment": "Excelente!"}'
+  -d '{"productName": "New Restaurant", "rating": 5, "comment": "Excellent!"}'
 ```
 
-## 📊 Cálculo do NPS
+## 📊 NPS Calculation
 
-O Net Promoter Score (NPS) é uma métrica que avalia a satisfação e lealdade dos clientes. O cálculo é baseado em uma única pergunta: "Em uma escala de 0 a 10, qual a probabilidade de você recomendar nosso produto/serviço para um amigo?"
+The Net Promoter Score (NPS) is a metric that evaluates customer satisfaction and loyalty. The calculation is based on a single question: "On a scale of 0 to 10, how likely are you to recommend our product/service to a friend?"
 
-### 🎯 Classificação dos Clientes
+### 🎯 Customer Classification
 
-Com base nas notas fornecidas, os clientes são classificados em três grupos:
+Based on the provided scores, customers are classified into three groups:
 
-- 👎 **Detratores (0-6)**: Clientes insatisfeitos que podem prejudicar sua marca
-- 😐 **Neutros (7-8)**: Clientes satisfeitos, mas indiferentes
-- 👍 **Promotores (9-10)**: Clientes entusiastas que promoverão sua marca
+- 👎 **Detractors (0-6)**: Unsatisfied customers who might harm your brand
+- 😐 **Passives (7-8)**: Satisfied but indifferent customers
+- 👍 **Promoters (9-10)**: Enthusiastic customers who will promote your brand
 
-### 🧮 Fórmula do NPS
+### 🧮 NPS Formula
 
 ```
-NPS = (Número de Promotores - Número de Detratores) / (Total de Respondentes) × 100
+NPS = (Number of Promoters - Number of Detractors) / (Total Respondents) × 100
 ```
 
-Por exemplo:
-- Total de respostas: 100
-- Promotores: 70
-- Neutros: 10
-- Detratores: 20
+For example:
+- Total responses: 100
+- Promoters: 70
+- Passives: 10
+- Detractors: 20
 
 NPS = (70 - 20) / 100 × 100 = 50
 
-### 📈 Interpretação do Resultado
+### 📈 Result Interpretation
 
-O score NPS varia de -100 a +100:
+The NPS score ranges from -100 to +100:
 
-- 🔴 **-100 a 0**: Zona Crítica
-- 🟡 **1 a 30**: Zona de Aperfeiçoamento
-- 🟢 **31 a 70**: Zona de Qualidade
-- 💚 **71 a 100**: Zona de Excelência
+- 🔴 **-100 to 0**: Critical Zone
+- 🟡 **1 to 30**: Improvement Zone
+- 🟢 **31 to 70**: Quality Zone
+- 💚 **71 to 100**: Excellence Zone
 
-### ⚙️ Implementação no Sistema
+### ⚙️ System Implementation
 
-No nosso sistema, o cálculo do NPS é realizado automaticamente com base nas avaliações recebidas:
+In our system, the NPS calculation is performed automatically based on received ratings:
 
-1. As notas de 1-5 são convertidas proporcionalmente para a escala NPS (0-10)
-2. O backend processa os dados em tempo real
-3. O dashboard exibe métricas detalhadas incluindo:
-   - Score NPS atual
-   - Tendências ao longo do tempo
-   - Distribuição das avaliações
-   - Análise de comentários
+1. Scores from 1-5 are proportionally converted to the NPS scale (0-10)
+2. The backend processes data in real-time
+3. The dashboard displays detailed metrics including:
+   - Current NPS score
+   - Trends over time
+   - Rating distribution
+   - Comment analysis
 
-## 📋 Próximos passos
+## 📋 Next Steps
 
-1. ✅ ~~Configure as variáveis de ambiente necessárias~~
-2. ✅ ~~Implemente a lógica de negócio do NPS~~
-3. ✅ ~~Adicione banco de dados MongoDB~~
-4. ✅ ~~Configure dados de teste (seed)~~
-5. ✅ Configure a comunicação entre frontend e backend
-6. ✅ Implemente testes automatizados
-7. 📊 Melhorias nos dashboards e relatórios
-8. 🔧 Adicione validações e tratamento de erros
-9. 🎨 Customize o design do sistema
-10. 🚀 Configure deployment e CI/CD
+1. ✅ ~~Configure required environment variables~~
+2. ✅ ~~Implement NPS business logic~~
+3. ✅ ~~Add MongoDB database~~
+4. ✅ ~~Configure test data (seed)~~
+5. ✅ Configure frontend and backend communication
+6. ✅ Implement automated tests
+7. 📊 Improve dashboards and reports
+8. 🔧 Add validations and error handling
+9. 🎨 Customize system design
+10. 🚀 Configure deployment and CI/CD
 
-## 📄 Licença
+## 📄 License
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+This project is under the MIT license. See the [LICENSE](LICENSE) file for more details.
 
 ---
 
-⭐ **Desenvolvido com ❤️ para melhorar a experiência do cliente** 
+⭐ **Developed with ❤️ to improve customer experience** 
