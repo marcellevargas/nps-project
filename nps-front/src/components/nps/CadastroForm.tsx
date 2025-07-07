@@ -42,7 +42,7 @@ export function CadastroForm() {
         <CardTitle className="text-white drop-shadow-lg">Cadastrar Nova Resposta</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6" role="form">
           <div className="space-y-2">
             <Label htmlFor="produto" className="text-white drop-shadow">Nome do Produto *</Label>
             <Input

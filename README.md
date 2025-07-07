@@ -198,12 +198,27 @@ Crie um arquivo `.env` na pasta `nps-back` com essas variáveis:
 
 ```env
 # exemplo para rodar local
-# Database Configuration
-MONGODB_URI=mongodb://localhost:27017/nps-database
+# Local
+MONGODB_URI=
+PORT=
+NODE_ENV=
 
-# Application Configuration
-PORT=3000
-NODE_ENV=development
+# Docker
+APP_CONTAINER_NAME=
+APP_PORT=
+NODE_ENV=
+MONGODB_URI_DOCKER=
+MONGO_VERSION=
+MONGO_CONTAINER_NAME=
+MONGO_PORT=
+MONGO_EXPRESS_CONTAINER_NAME=
+MONGO_EXPRESS_PORT=
+NETWORK_NAME=
+MONGO_VERSION=
+MONGO_CONTAINER_NAME=
+MONGO_PORT=
+MONGO_VOLUME=
+MONGO_SERVER=
 ```
 
 3. **Execute o seed para popular o banco com dados de teste:**
@@ -221,7 +236,7 @@ npm run seed
 ```bash
 npm run start:dev
 ```
-🔗 A API estará disponível em: http://localhost:3000
+🔗 A API estará disponível em: http://localhost:3001/api
 
 ### 💻 Frontend (nps-front)
 
@@ -235,41 +250,75 @@ npm install
 ```bash
 npm run dev
 ```
-📱 O frontend estará disponível em: http://localhost:3001
+📱 O frontend estará disponível em: http://localhost:3000
 
 ### 🐳 Rodando com Docker
 
 Para facilitar o desenvolvimento, você pode usar Docker para executar todo o ambiente:
 
 1. **Configure as variáveis de ambiente:**
-Crie um arquivo `.env` na pasta `nps-back` com as variáveis necessárias (use o `.env.template` como base).
+   - Para o backend: Crie um arquivo `.env` na pasta `nps-back` com as variáveis necessárias (use o `.env.template` como base).
+   - Para o frontend: As variáveis já estão configuradas no docker-compose.yml.
 
-2. **Inicie o MongoDB e a API:**
+2. **Inicie o ambiente completo (recomendado):**
 ```bash
+# Na raiz do projeto, inicie primeiro o backend
 cd nps-back
 npm run docker:up
-```
-Este comando irá:
-- Iniciar o container do MongoDB
-- Construir e iniciar o container da API
-- Conectar ambos na mesma rede Docker
 
-3. **Popular o banco com dados de teste:**
-```bash
-cd nps-back
-npm run docker:seed
+# Em outro terminal, inicie o frontend
+cd nps-front
+npm run docker:up
 ```
-🌱 Isso criará os mesmos dados de exemplo no container do MongoDB
 
-4. **Para parar todos os containers:**
+3. **Comandos disponíveis para o Frontend (na pasta nps-front):**
 ```bash
-cd nps-back
+# Iniciar os containers
+npm run docker:up
+
+# Parar os containers
 npm run docker:down
+
+# Reconstruir e iniciar os containers (após mudanças)
+npm run docker:build
+
+# Ver logs em tempo real
+npm run docker:logs
+```
+
+4. **Comandos disponíveis para o Backend (na pasta nps-back):**
+```bash
+# Iniciar os containers (MongoDB + API)
+npm run docker:up
+
+# Parar os containers
+npm run docker:down
+
+# Popular o banco com dados de teste
+npm run docker:seed
 ```
 
 ✅ **Verificação:** Após iniciar os containers:
 - MongoDB estará rodando em: mongodb://localhost:27017
-- API estará disponível em: http://localhost:8081
+- API (Backend) estará disponível em: http://localhost:3001
+- Frontend estará disponível em: http://localhost:3000
+
+**🔍 Troubleshooting Docker:**
+```bash
+# Verificar status dos containers
+docker ps
+
+# Ver logs de um container específico
+docker logs nps-frontend
+docker logs nps-backend
+
+# Reiniciar um container
+docker restart nps-frontend
+docker restart nps-backend
+
+# Limpar todos os containers e volumes (caso necessário)
+docker-compose down -v
+```
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -295,7 +344,7 @@ Este projeto utiliza **MongoDB** para armazenar as avaliações NPS. O banco inc
 ### 📊 Dados de Teste (Seed)
 Ao executar `npm run seed`, o banco será populado com dados de exemplo sobre restaurantes:
 
-**🍕 Restaurantes incluídos:**
+**🍕 Produtos incluídos:**
 - Pizza Express
 - Burger King  
 - Sushi House
@@ -328,17 +377,64 @@ curl -X POST http://localhost:3000/nps-survey \
   -d '{"productName": "Novo Restaurante", "rating": 5, "comment": "Excelente!"}'
 ```
 
+## 📊 Cálculo do NPS
+
+O Net Promoter Score (NPS) é uma métrica que avalia a satisfação e lealdade dos clientes. O cálculo é baseado em uma única pergunta: "Em uma escala de 0 a 10, qual a probabilidade de você recomendar nosso produto/serviço para um amigo?"
+
+### 🎯 Classificação dos Clientes
+
+Com base nas notas fornecidas, os clientes são classificados em três grupos:
+
+- 👎 **Detratores (0-6)**: Clientes insatisfeitos que podem prejudicar sua marca
+- 😐 **Neutros (7-8)**: Clientes satisfeitos, mas indiferentes
+- 👍 **Promotores (9-10)**: Clientes entusiastas que promoverão sua marca
+
+### 🧮 Fórmula do NPS
+
+```
+NPS = (Número de Promotores - Número de Detratores) / (Total de Respondentes) × 100
+```
+
+Por exemplo:
+- Total de respostas: 100
+- Promotores: 70
+- Neutros: 10
+- Detratores: 20
+
+NPS = (70 - 20) / 100 × 100 = 50
+
+### 📈 Interpretação do Resultado
+
+O score NPS varia de -100 a +100:
+
+- 🔴 **-100 a 0**: Zona Crítica
+- 🟡 **1 a 30**: Zona de Aperfeiçoamento
+- 🟢 **31 a 70**: Zona de Qualidade
+- 💚 **71 a 100**: Zona de Excelência
+
+### ⚙️ Implementação no Sistema
+
+No nosso sistema, o cálculo do NPS é realizado automaticamente com base nas avaliações recebidas:
+
+1. As notas de 1-5 são convertidas proporcionalmente para a escala NPS (0-10)
+2. O backend processa os dados em tempo real
+3. O dashboard exibe métricas detalhadas incluindo:
+   - Score NPS atual
+   - Tendências ao longo do tempo
+   - Distribuição das avaliações
+   - Análise de comentários
+
 ## 📋 Próximos passos
 
 1. ✅ ~~Configure as variáveis de ambiente necessárias~~
 2. ✅ ~~Implemente a lógica de negócio do NPS~~
 3. ✅ ~~Adicione banco de dados MongoDB~~
 4. ✅ ~~Configure dados de teste (seed)~~
-5. 🔄 Configure a comunicação entre frontend e backend
-6. 🎨 Customize o design do sistema
-7. 📊 Implemente dashboards e relatórios
+5. ✅ Configure a comunicação entre frontend e backend
+6. ✅ Implemente testes automatizados
+7. 📊 Melhorias nos dashboards e relatórios
 8. 🔧 Adicione validações e tratamento de erros
-9. 🧪 Implemente testes automatizados
+9. 🎨 Customize o design do sistema
 10. 🚀 Configure deployment e CI/CD
 
 ## 📄 Licença

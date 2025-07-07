@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   mongodb:
     image: mongo:${MONGO_VERSION}
@@ -34,4 +32,4 @@ volumes:
 networks:
   nps-network:
     name: ${NETWORK_NAME}
-    driver: bridge
+    external: true

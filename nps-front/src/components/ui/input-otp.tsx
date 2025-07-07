@@ -6,26 +6,31 @@ import { MinusIcon } from "lucide-react";
 
 import { cn } from "./utils";
 
-type InputOTPProps = Omit<React.ComponentProps<typeof OTPInput>, "render"> & {
+interface InputOTPProps {
+  className?: string;
   containerClassName?: string;
-};
+  maxLength?: number;
+  value?: string;
+  onChange?: (value: string) => void;
+}
 
 function InputOTP({
   className,
   containerClassName,
   maxLength = 6,
-  ...props
+  value,
+  onChange,
 }: InputOTPProps) {
   return (
     <OTPInput
-      containerClassName={cn(
-        "group flex items-center has-[:disabled]:opacity-30",
-        containerClassName
-      )}
-      className={cn("disabled:cursor-not-allowed", className)}
+      value={value}
+      onChange={onChange}
       maxLength={maxLength}
       render={({ slots }) => (
-        <>
+        <div className={cn(
+          "group flex items-center has-[:disabled]:opacity-30",
+          containerClassName
+        )}>
           <div className="flex">
             {slots.slice(0, maxLength / 2).map((slot, idx) => (
               <InputOTPSlot key={idx} {...slot} />
@@ -39,9 +44,8 @@ function InputOTP({
               <InputOTPSlot key={idx} {...slot} />
             ))}
           </div>
-        </>
+        </div>
       )}
-      {...props}
     />
   );
 }

@@ -10,7 +10,7 @@ COPY . .
 
 RUN npm run build
 
-EXPOSE 3000
+EXPOSE 3001
 
 RUN addgroup -g 1001 -S nodejs
 RUN adduser -S nestjs -u 1001

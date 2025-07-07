@@ -1,16 +1,12 @@
-version: '3.8'
-
 services:
-  app:
+  frontend:
     build: .
-    container_name: ${APP_CONTAINER_NAME}
+    container_name: nps-frontend
     restart: unless-stopped
     ports:
-      - "3001:3001"
+      - "3000:3000"
     environment:
-      - NODE_ENV=${NODE_ENV}
-      - MONGODB_URI=${MONGODB_URI_DOCKER}
-      - PORT=3001
+      - NEXT_PUBLIC_API_URL=http://nps-backend:3001
     volumes:
       - .:/app
       - /app/node_modules
@@ -19,5 +15,5 @@ services:
 
 networks:
   nps-network:
-    name: ${NETWORK_NAME}
     external: true
+    name: nps-network 
