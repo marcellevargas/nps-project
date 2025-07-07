@@ -430,12 +430,13 @@ In our system, the NPS calculation is performed automatically based on received 
 2. ✅ ~~Implement NPS business logic~~
 3. ✅ ~~Add MongoDB database~~
 4. ✅ ~~Configure test data (seed)~~
-5. ✅ Configure frontend and backend communication
-6. ✅ Implement automated tests
+5. ✅ ~~Configure frontend and backend communication~~
+6. ✅ ~~Implement automated tests~~
 7. 📊 Improve dashboards and reports
 8. 🔧 Add validations and error handling
-9. 🎨 Customize system design
-10. 🚀 Configure deployment and CI/CD
+9. 📊 Testing Improvement
+10. 🎨 Customize system design
+11. 🚀 Configure deployment and CI/CD
 ---
 
 
