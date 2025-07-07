@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BarChart3, ClipboardList, RefreshCw } from 'lucide-react';
-import { RelatorioRespostas } from '@/components/nps/RelatorioRespostas';
-import { CadastroForm } from '@/components/nps/CadastroForm';
+import { SurveyResponsesReport } from '@/components/nps/SurveyResponsesReport';
+import { SurveyForm } from '@/components/nps/SurveyForm';
 import { useNPSSurvey } from '@/hooks/useNPSSurvey';
 import { Button } from '@/components/ui/button';
 
@@ -25,7 +25,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-purple-500 to-white relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-purple-600 via-purple-800 to-black relative overflow-hidden">
       <div
         className="pointer-events-none fixed top-0 left-0 z-50 transition-all duration-100 ease-out"
         style={{
@@ -42,9 +42,9 @@ export default function Home() {
       </div>
 
       <div className="absolute inset-0">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-white/10 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
-        <div className="absolute top-1/3 right-0 w-80 h-80 bg-purple-300/30 rounded-full blur-3xl transform translate-x-1/2"></div>
-        <div className="absolute bottom-0 left-1/3 w-72 h-72 bg-gray-300/20 rounded-full blur-3xl transform translate-y-1/2"></div>
+        <div className="absolute top-0 left-0 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="absolute top-1/3 right-0 w-80 h-80 bg-purple-800/30 rounded-full blur-3xl transform translate-x-1/2"></div>
+        <div className="absolute bottom-0 left-1/3 w-72 h-72 bg-black/30 rounded-full blur-3xl transform translate-y-1/2"></div>
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-8">
@@ -94,18 +94,18 @@ export default function Home() {
 
               <TabsContent value="relatorio">
                 {isLoading ? (
-                  <div className="text-center text-white py-8">Carregando...</div>
+                  <div className="text-center text-white py-8">Loading...</div>
                 ) : (
-                  <RelatorioRespostas 
-                    respostas={surveys} 
-                    respostasPaginadas={paginatedSurveys}
+                  <SurveyResponsesReport 
+                    responses={surveys} 
+                    paginatedResponses={paginatedSurveys}
                     pagination={pagination}
                   />
                 )}
               </TabsContent>
 
               <TabsContent value="cadastro">
-                <CadastroForm />
+                <SurveyForm />
               </TabsContent>
             </Tabs>
           </div>
