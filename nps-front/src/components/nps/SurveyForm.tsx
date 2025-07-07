@@ -7,8 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { StarRating } from './StarRating';
 import { useNPSSurvey } from '@/hooks/useNPSSurvey';
 
-export function CadastroForm() {
-  const [produto, setProduto] = useState('');
+export function SurveyForm() {
+  const [product, setProduct] = useState('');
   const [score, setScore] = useState(0);
   const [feedback, setFeedback] = useState('');
   const { createSurvey, isLoading, error } = useNPSSurvey();
@@ -16,41 +16,41 @@ export function CadastroForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!produto.trim() || score === 0) {
-      alert('Por favor, preencha o nome do produto e selecione uma avaliação.');
+    if (!product.trim() || score === 0) {
+      alert('Please enter the product name and select a rating.');
       return;
     }
 
     try {
       await createSurvey({
-        productName: produto.trim(),
+        productName: product.trim(),
         rating: score,
         comment: feedback.trim(),
       });
       
-      setProduto('');
+      setProduct('');
       setScore(0);
       setFeedback('');
     } catch (err) {
-      alert('Erro ao cadastrar a pesquisa. Por favor, tente novamente.');
+      alert('Error submitting the survey. Please try again.');
     }
   };
 
   return (
     <Card className="w-full max-w-2xl mx-auto backdrop-blur-xl bg-white/20 border border-white/30 shadow-2xl">
       <CardHeader>
-        <CardTitle className="text-white drop-shadow-lg">Cadastrar Nova Resposta</CardTitle>
+        <CardTitle className="text-white drop-shadow-lg">Submit New Response</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6" role="form">
           <div className="space-y-2">
-            <Label htmlFor="produto" className="text-white drop-shadow">Nome do Produto *</Label>
+            <Label htmlFor="product" className="text-white drop-shadow">Product Name *</Label>
             <Input
-              id="produto"
+              id="product"
               type="text"
-              value={produto}
-              onChange={(e) => setProduto(e.target.value)}
-              placeholder="Digite o nome do produto"
+              value={product}
+              onChange={(e) => setProduct(e.target.value)}
+              placeholder="Enter the product name"
               required
               className="backdrop-blur-sm bg-white/20 border-white/30 text-white placeholder:text-white/60 focus:bg-white/30 transition-all"
               disabled={isLoading}
@@ -58,7 +58,7 @@ export function CadastroForm() {
           </div>
 
           <div className="space-y-2">
-            <Label className="text-white drop-shadow">Avaliação *</Label>
+            <Label className="text-white drop-shadow">Rating *</Label>
             <div className="flex items-center gap-2">
               <StarRating 
                 rating={score} 
@@ -66,18 +66,18 @@ export function CadastroForm() {
                 disabled={isLoading}
               />
               <span className="text-sm text-white/80 ml-2 drop-shadow">
-                {score > 0 ? `${score} estrela${score > 1 ? 's' : ''}` : 'Selecione uma avaliação'}
+                {score > 0 ? `${score} star${score > 1 ? 's' : ''}` : 'Select a rating'}
               </span>
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="feedback" className="text-white drop-shadow">Comentário (opcional)</Label>
+            <Label htmlFor="feedback" className="text-white drop-shadow">Comment (optional)</Label>
             <Textarea
               id="feedback"
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
-              placeholder="Digite um comentário adicional..."
+              placeholder="Enter additional comments..."
               rows={4}
               className="backdrop-blur-sm bg-white/20 border-white/30 text-white placeholder:text-white/60 focus:bg-white/30 transition-all resize-none"
               disabled={isLoading}
@@ -93,7 +93,7 @@ export function CadastroForm() {
             className="w-full bg-white/20 hover:bg-white/30 text-white border border-white/30 backdrop-blur-sm shadow-lg transition-all"
             disabled={isLoading}
           >
-            {isLoading ? 'Cadastrando...' : 'Cadastrar Resposta'}
+            {isLoading ? 'Submitting...' : 'Submit Response'}
           </Button>
         </form>
       </CardContent>

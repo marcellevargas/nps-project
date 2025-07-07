@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, within } from '@testing-library/react'
-import { RelatorioRespostas } from '../RelatorioRespostas'
+import { SurveyResponsesReport } from '../SurveyResponsesReport'
 import { NPSSurvey } from '@/services/api'
 
 const mockRespostas: NPSSurvey[] = [
@@ -12,7 +12,7 @@ const mockRespostas: NPSSurvey[] = [
 
 describe('RelatorioRespostas', () => {
   it('calcula e exibe o NPS corretamente', () => {
-    render(<RelatorioRespostas respostas={mockRespostas} respostasPaginadas={mockRespostas} />)
+    render(<SurveyResponsesReport responses={mockRespostas} paginatedResponses={mockRespostas} />)
     
     expect(screen.getByText('0')).toBeInTheDocument()
 
@@ -34,28 +34,28 @@ describe('RelatorioRespostas', () => {
       comment: ''
     })
     
-    render(<RelatorioRespostas 
-      respostas={respostasPromotores} 
-      respostasPaginadas={respostasPromotores} 
+    render(<SurveyResponsesReport 
+      responses={respostasPromotores} 
+      paginatedResponses={respostasPromotores} 
     />)
     
     expect(screen.getByText('Excelente')).toBeInTheDocument()
   })
 
   it('renderiza o gráfico quando há respostas', () => {
-    render(<RelatorioRespostas respostas={mockRespostas} respostasPaginadas={mockRespostas} />)
+    render(<SurveyResponsesReport responses={mockRespostas} paginatedResponses={mockRespostas} />)
     
     expect(screen.getByText('Distribuição das Avaliações')).toBeInTheDocument()
   })
 
   it('não renderiza o gráfico quando não há respostas', () => {
-    render(<RelatorioRespostas respostas={[]} respostasPaginadas={[]} />)
+    render(<SurveyResponsesReport responses={[]} paginatedResponses={[]} />)
     
     expect(screen.queryByText('Distribuição das Avaliações')).not.toBeInTheDocument()
   })
 
   it('exibe as respostas com comentários corretamente', () => {
-    render(<RelatorioRespostas respostas={mockRespostas} respostasPaginadas={mockRespostas} />)
+    render(<SurveyResponsesReport responses={mockRespostas} paginatedResponses={mockRespostas} />)
     
     expect(screen.getByText('Excelente!')).toBeInTheDocument()
     expect(screen.getByText('Regular')).toBeInTheDocument()
@@ -63,7 +63,7 @@ describe('RelatorioRespostas', () => {
   })
 
   it('formata a data corretamente nas respostas', () => {
-    render(<RelatorioRespostas respostas={mockRespostas} respostasPaginadas={mockRespostas} />)
+    render(<SurveyResponsesReport responses={mockRespostas} paginatedResponses={mockRespostas} />)
     
     const dataFormatada = screen.getAllByText(/20\/03\/2024/)[0]
     expect(dataFormatada).toBeInTheDocument()
@@ -80,9 +80,9 @@ describe('RelatorioRespostas', () => {
     }
 
     render(
-      <RelatorioRespostas 
-        respostas={mockRespostas}
-        respostasPaginadas={mockRespostas.slice(0, 2)}
+      <SurveyResponsesReport 
+        responses={mockRespostas}
+        paginatedResponses={mockRespostas.slice(0, 2)}
         pagination={mockPagination}
       />
     )
@@ -105,9 +105,9 @@ describe('RelatorioRespostas', () => {
     }
 
     const { rerender } = render(
-      <RelatorioRespostas 
-        respostas={mockRespostas}
-        respostasPaginadas={mockRespostas.slice(0, 2)}
+      <SurveyResponsesReport 
+        responses={mockRespostas}
+        paginatedResponses={mockRespostas.slice(0, 2)}
         pagination={mockPagination}
       />
     )
@@ -117,9 +117,9 @@ describe('RelatorioRespostas', () => {
 
     mockPagination.page = 3
     rerender(
-      <RelatorioRespostas 
-        respostas={mockRespostas}
-        respostasPaginadas={mockRespostas.slice(4, 5)}
+      <SurveyResponsesReport 
+        responses={mockRespostas}
+        paginatedResponses={mockRespostas.slice(4, 5)}
         pagination={mockPagination}
       />
     )
@@ -129,7 +129,7 @@ describe('RelatorioRespostas', () => {
   })
 
   it('renderiza corretamente sem paginação', () => {
-    render(<RelatorioRespostas respostas={mockRespostas} respostasPaginadas={mockRespostas} />)
+    render(<SurveyResponsesReport responses={mockRespostas} paginatedResponses={mockRespostas} />)
     
     expect(screen.queryByLabelText('Go to next page')).not.toBeInTheDocument()
     expect(screen.queryByLabelText('Go to previous page')).not.toBeInTheDocument()

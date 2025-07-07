@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
-import { CadastroForm } from '../CadastroForm'
+import { SurveyForm } from '../SurveyForm'
 import { useNPSSurvey } from '@/hooks/useNPSSurvey'
 
 
@@ -21,7 +21,7 @@ describe('CadastroForm', () => {
   })
 
   it('renderiza o formulário corretamente', () => {
-    render(<CadastroForm />)
+    render(<SurveyForm />)
     
     expect(screen.getByLabelText(/nome do produto/i)).toBeInTheDocument()
     expect(screen.getByLabelText(/comentário/i)).toBeInTheDocument()
@@ -34,7 +34,7 @@ describe('CadastroForm', () => {
   })
 
   it('submete o formulário com dados válidos', async () => {
-    render(<CadastroForm />)
+    render(<SurveyForm />)
     
     fireEvent.change(screen.getByLabelText(/nome do produto/i), {
       target: { value: 'Produto Teste' },
@@ -60,7 +60,7 @@ describe('CadastroForm', () => {
 
   it('mostra erro quando tenta submeter sem produto ou avaliação', async () => {
     const mockAlert = jest.spyOn(window, 'alert').mockImplementation()
-    render(<CadastroForm />)
+    render(<SurveyForm />)
     
     fireEvent.submit(screen.getByRole('form'))
     
@@ -79,7 +79,7 @@ describe('CadastroForm', () => {
       error: null,
     })
     
-    render(<CadastroForm />)
+    render(<SurveyForm />)
     
     expect(screen.getByLabelText(/nome do produto/i)).toBeDisabled()
     expect(screen.getByLabelText(/comentário/i)).toBeDisabled()
@@ -94,13 +94,13 @@ describe('CadastroForm', () => {
       error: errorMessage,
     })
     
-    render(<CadastroForm />)
+    render(<SurveyForm />)
     
     expect(screen.getByText(errorMessage)).toBeInTheDocument()
   })
 
   it('limpa o formulário após submissão bem-sucedida', async () => {
-    render(<CadastroForm />)
+    render(<SurveyForm />)
     
     fireEvent.change(screen.getByLabelText(/nome do produto/i), {
       target: { value: 'Produto Teste' },

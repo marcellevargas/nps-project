@@ -13,9 +13,9 @@ import {
 } from "@/components/ui/pagination";
 import { cn } from "@/lib/utils";
 
-interface RelatorioRespostasProps {
-  respostas: NPSSurvey[];
-  respostasPaginadas: NPSSurvey[];
+interface SurveyResponsesReportProps {
+  responses: NPSSurvey[];
+  paginatedResponses: NPSSurvey[];
   pagination?: {
     page: number;
     limit: number;
@@ -32,41 +32,41 @@ interface ChartData {
   fill: string;
 }
 
-export function RelatorioRespostas({ respostas, respostasPaginadas, pagination }: RelatorioRespostasProps) {
-  const calcularNPS = () => {
-    if (!respostas || respostas.length === 0) return { nps: 0, promotores: 0, neutros: 0, detratores: 0 };
+export function SurveyResponsesReport({ responses, paginatedResponses, pagination }: SurveyResponsesReportProps) {
+  const calculateNPS = () => {
+    if (!responses || responses.length === 0) return { nps: 0, promoters: 0, passives: 0, detractors: 0 };
 
-    const total = respostas.length;
-    const promotores = respostas.filter(r => r.rating >= 4 && r.rating <= 5).length;
-    const neutros = respostas.filter(r => r.rating === 3).length;
-    const detratores = respostas.filter(r => r.rating <= 2).length;
+    const total = responses.length;
+    const promoters = responses.filter(r => r.rating >= 4 && r.rating <= 5).length;
+    const passives = responses.filter(r => r.rating === 3).length;
+    const detractors = responses.filter(r => r.rating <= 2).length;
 
-    const nps = Math.round(((promotores - detratores) / total) * 100);
+    const nps = Math.round(((promoters - detractors) / total) * 100);
 
     return {
       nps,
-      promotores: Math.round((promotores / total) * 100),
-      neutros: Math.round((neutros / total) * 100),
-      detratores: Math.round((detratores / total) * 100)
+      promoters: Math.round((promoters / total) * 100),
+      passives: Math.round((passives / total) * 100),
+      detractors: Math.round((detractors / total) * 100)
     };
   };
 
-  const { nps, promotores, neutros, detratores } = calcularNPS();
+  const { nps, promoters, passives, detractors } = calculateNPS();
 
-  const getClassificacaoNPS = (nps: number) => {
-    if (nps >= 75) return { label: 'Excelente', color: 'bg-green-500/80 backdrop-blur-sm' };
-    if (nps >= 50) return { label: 'Muito Bom', color: 'bg-green-400/80 backdrop-blur-sm' };
-    if (nps >= 0) return { label: 'Bom', color: 'bg-yellow-500/80 backdrop-blur-sm' };
-    if (nps >= -50) return { label: 'Ruim', color: 'bg-orange-500/80 backdrop-blur-sm' };
-    return { label: 'Crítico', color: 'bg-red-500/80 backdrop-blur-sm' };
+  const getNPSClassification = (nps: number) => {
+    if (nps >= 75) return { label: 'Excellent', color: 'bg-green-500/80 backdrop-blur-sm' };
+    if (nps >= 50) return { label: 'Very Good', color: 'bg-green-400/80 backdrop-blur-sm' };
+    if (nps >= 0) return { label: 'Good', color: 'bg-yellow-500/80 backdrop-blur-sm' };
+    if (nps >= -50) return { label: 'Poor', color: 'bg-orange-500/80 backdrop-blur-sm' };
+    return { label: 'Critical', color: 'bg-red-500/80 backdrop-blur-sm' };
   };
 
-  const classificacao = getClassificacaoNPS(nps);
+  const classification = getNPSClassification(nps);
 
-  const dadosGrafico: ChartData[] = [
-    { name: 'Promotores', value: promotores, fill: 'rgb(34, 197, 94)' },
-    { name: 'Neutros', value: neutros, fill: 'rgb(234, 179, 8)' },
-    { name: 'Detratores', value: detratores, fill: 'rgb(239, 68, 68)' }
+  const chartData: ChartData[] = [
+    { name: 'Promoters', value: promoters, fill: 'rgb(34, 197, 94)' },
+    { name: 'Passives', value: passives, fill: 'rgb(234, 179, 8)' },
+    { name: 'Detractors', value: detractors, fill: 'rgb(239, 68, 68)' }
   ];
 
   const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
@@ -89,53 +89,53 @@ export function RelatorioRespostas({ respostas, respostasPaginadas, pagination }
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-white drop-shadow-lg">{nps}</div>
-            <Badge className={`mt-1 ${classificacao.color} text-white border-white/20`}>
-              {classificacao.label}
+            <Badge className={`mt-1 ${classification.color} text-white border-white/20`}>
+              {classification.label}
             </Badge>
           </CardContent>
         </Card>
 
         <Card className="backdrop-blur-xl bg-white/20 border border-white/30 shadow-xl">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm text-white drop-shadow">Promotores</CardTitle>
+            <CardTitle className="text-sm text-white drop-shadow">Promoters</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-300 drop-shadow-lg">{promotores}%</div>
-            <p className="text-sm text-white/80 drop-shadow">Avaliações 4-5</p>
+            <div className="text-2xl font-bold text-green-300 drop-shadow-lg">{promoters}%</div>
+            <p className="text-sm text-white/80 drop-shadow">Ratings 4-5</p>
           </CardContent>
         </Card>
 
         <Card className="backdrop-blur-xl bg-white/20 border border-white/30 shadow-xl">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm text-white drop-shadow">Neutros</CardTitle>
+            <CardTitle className="text-sm text-white drop-shadow">Passives</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-yellow-300 drop-shadow-lg">{neutros}%</div>
-            <p className="text-sm text-white/80 drop-shadow">Avaliações 3</p>
+            <div className="text-2xl font-bold text-yellow-300 drop-shadow-lg">{passives}%</div>
+            <p className="text-sm text-white/80 drop-shadow">Ratings 3</p>
           </CardContent>
         </Card>
 
         <Card className="backdrop-blur-xl bg-white/20 border border-white/30 shadow-xl">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm text-white drop-shadow">Detratores</CardTitle>
+            <CardTitle className="text-sm text-white drop-shadow">Detractors</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-red-300 drop-shadow-lg">{detratores}%</div>
-            <p className="text-sm text-white/80 drop-shadow">Avaliações 0-2</p>
+            <div className="text-2xl font-bold text-red-300 drop-shadow-lg">{detractors}%</div>
+            <p className="text-sm text-white/80 drop-shadow">Ratings 0-2</p>
           </CardContent>
         </Card>
       </div>
 
-      {respostas && respostas.length > 0 && (
+      {responses && responses.length > 0 && (
         <Card className="backdrop-blur-xl bg-white/20 border border-white/30 shadow-xl">
           <CardHeader>
-            <CardTitle className="text-lg text-white drop-shadow-lg">Distribuição das Avaliações</CardTitle>
+            <CardTitle className="text-lg text-white drop-shadow-lg">Rating Distribution</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-80 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
-                  data={dadosGrafico}
+                  data={chartData}
                   margin={{
                     top: 20,
                     right: 30,
@@ -167,18 +167,18 @@ export function RelatorioRespostas({ respostas, respostasPaginadas, pagination }
             <div className="mt-4 grid grid-cols-3 gap-4 text-center">
               <div className="space-y-1">
                 <div className="w-4 h-4 bg-green-500 rounded mx-auto"></div>
-                <p className="text-xs text-white/80 drop-shadow">Promotores</p>
-                <p className="text-sm text-white drop-shadow">{promotores}%</p>
+                <p className="text-xs text-white/80 drop-shadow">Promoters</p>
+                <p className="text-sm text-white drop-shadow">{promoters}%</p>
               </div>
               <div className="space-y-1">
                 <div className="w-4 h-4 bg-yellow-500 rounded mx-auto"></div>
-                <p className="text-xs text-white/80 drop-shadow">Neutros</p>
-                <p className="text-sm text-white drop-shadow">{neutros}%</p>
+                <p className="text-xs text-white/80 drop-shadow">Passives</p>
+                <p className="text-sm text-white drop-shadow">{passives}%</p>
               </div>
               <div className="space-y-1">
                 <div className="w-4 h-4 bg-red-500 rounded mx-auto"></div>
-                <p className="text-xs text-white/80 drop-shadow">Detratores</p>
-                <p className="text-sm text-white drop-shadow">{detratores}%</p>
+                <p className="text-xs text-white/80 drop-shadow">Detractors</p>
+                <p className="text-sm text-white drop-shadow">{detractors}%</p>
               </div>
             </div>
           </CardContent>
@@ -188,7 +188,7 @@ export function RelatorioRespostas({ respostas, respostasPaginadas, pagination }
       <div className="space-y-4">
         <div className="flex justify-between items-center">
           <h2 className="text-xl font-semibold text-white drop-shadow-lg">
-            Últimas Respostas ({pagination?.total || 0})
+            Latest Responses ({pagination?.total || 0})
           </h2>
         </div>
 
@@ -249,17 +249,17 @@ export function RelatorioRespostas({ respostas, respostasPaginadas, pagination }
           </Pagination>
         )}
 
-        {respostasPaginadas.map((resposta) => (
-          <Card key={resposta.id} className="backdrop-blur-xl bg-white/20 border border-white/30 shadow-xl">
+        {paginatedResponses.map((response) => (
+          <Card key={response.id} className="backdrop-blur-xl bg-white/20 border border-white/30 shadow-xl">
             <CardContent className="pt-6">
               <div className="flex items-start justify-between gap-4">
                 <div className="space-y-1">
-                  <StarRating rating={resposta.rating} onRatingChange={() => {}} disabled />
-                  {resposta.comment && (
-                    <p className="text-white/90 mt-2">{resposta.comment}</p>
+                  <StarRating rating={response.rating} onRatingChange={() => {}} disabled />
+                  {response.comment && (
+                    <p className="text-white/90 mt-2">{response.comment}</p>
                   )}
                   <p className="text-sm text-white/60">
-                    {new Date(resposta.createdAt).toLocaleDateString('pt-BR')}
+                    {new Date(response.createdAt).toLocaleDateString('en-US')}
                   </p>
                 </div>
               </div>
