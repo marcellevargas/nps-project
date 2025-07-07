@@ -2,10 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { NpsSurvey, NpsSurveyDocument } from '../schemas/nps-survey.schema';
-import { CreateNpsSurveyDto, UpdateNpsSurveyDto } from '../dtos';
+import { CreateNpsSurveyDto, UpdateNpsSurveyDto, PaginationDto } from '../dtos';
 import {
   NpsCalculationResult,
   NpsReportResult,
+  PaginatedResult,
 } from '../../../common/interfaces';
 
 @Injectable()
@@ -20,8 +21,31 @@ export class NpsSurveyService {
     return createdSurvey.save();
   }
 
-  async findAll(): Promise<NpsSurvey[]> {
-    return this.npsSurveyModel.find().exec();
+  async findAll(
+    paginationDto?: PaginationDto,
+  ): Promise<PaginatedResult<NpsSurvey>> {
+    const { page = 1, limit = 10 } = paginationDto || {};
+    const skip = (page - 1) * limit;
+
+    const [data, total] = await Promise.all([
+      this.npsSurveyModel
+        .find()
+        .skip(skip)
+        .limit(limit)
+        .sort({ createdAt: -1 })
+        .exec(),
+      this.npsSurveyModel.countDocuments(),
+    ]);
+
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+      data,
+      total,
+      page,
+      limit,
+      totalPages,
+    };
   }
 
   async findById(id: string): Promise<NpsSurvey | null> {
@@ -73,12 +97,14 @@ export class NpsSurveyService {
     };
   }
 
-  async getDetailedReport(): Promise<NpsReportResult> {
-    const responses = await this.findAll();
+  async getDetailedReport(
+    paginationDto?: PaginationDto,
+  ): Promise<NpsReportResult> {
+    const paginatedResponses = await this.findAll(paginationDto);
     const npsData = await this.calculateNpsScore();
 
     return {
-      responses,
+      responses: paginatedResponses,
       npsData,
     };
   }

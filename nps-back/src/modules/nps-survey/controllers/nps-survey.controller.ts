@@ -8,9 +8,10 @@ import {
   Param,
   HttpException,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { NpsSurveyService } from '../services/nps-survey.service';
-import { CreateNpsSurveyDto, UpdateNpsSurveyDto } from '../dtos';
+import { CreateNpsSurveyDto, UpdateNpsSurveyDto, PaginationDto } from '../dtos';
 import {
   ValidateRating,
   ValidateRequired,
@@ -35,8 +36,8 @@ export class NpsSurveyController {
 
   @Get()
   @ErrorHandler('Erro ao buscar respostas dos clientes')
-  async findAll() {
-    return await this.npsSurveyService.findAll();
+  async findAll(@Query() paginationDto: PaginationDto) {
+    return await this.npsSurveyService.findAll(paginationDto);
   }
 
   @Get('nps-score')
@@ -47,8 +48,8 @@ export class NpsSurveyController {
 
   @Get('report')
   @ErrorHandler('Erro ao gerar relatório das respostas')
-  async getReport() {
-    return await this.npsSurveyService.getDetailedReport();
+  async getReport(@Query() paginationDto: PaginationDto) {
+    return await this.npsSurveyService.getDetailedReport(paginationDto);
   }
 
   @Get(':id')
